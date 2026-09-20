@@ -6,7 +6,6 @@
     - [Base Images](docker/base-images.md)
     - [Interactive Container](docker/interactive-container.md)
     - [Install Basic Dependencies](docker/basic-dependencies.md)
-    - [Install Optional Dependencies](docker/optional-dependencies.md)
     - [Working directory](docker/working-directory.md)
     - [Virtual Environment](docker/virtual-environment.md)
     - [Hardened Python Packages Installations with `uv`](docker/installations-uv.md)
