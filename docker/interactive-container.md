@@ -1,7 +1,7 @@
 # Interactive container
 
 ```powershell
-docker run -it --name docker-walkthrough python:3.12-slim bash
+docker run -it --name docker-walkthrough -p 127.0.0.1:8501:8501 python:3.12-slim bash
 ```
 
 Creates and starts an interactive container from the Python CPU base image and opens a Bash shell inside it.
