@@ -10,7 +10,7 @@
     - [Virtual Environment](docker/virtual-environment.md)
     - [Hardened Python Packages Installations with `uv`](docker/installations-uv.md)
     - [Non-root user](docker/non-root-user.md)
-    - [.dockerignore](docker/.dockerignore.md)
+    - [.dockerignore](docker/dockerignore.md)
     - [Link the application files](docker/link-application-files.md)
     - [Run as the non-root user](docker/run-non-root-user.md)
     - [EXPOSE the Streamlit port](docker/expose-streamlit-port.md)
