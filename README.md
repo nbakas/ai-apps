@@ -1,17 +1,5 @@
 # AI Applications Development
 
-## Security and Best Practices
-
-- Ensure your operating system, firewall, antivirus software, and Docker Desktop are up to date and properly configured.
-- In Docker Desktop → Settings → Resources → Network, set Port binding behavior to Localhost only to reduce accidental exposure of container ports to the local network or internet.
-- Keep all applications and services accessible only through localhost, for streamlit: `-p 127.0.0.1:8501:8501`.
-- When using docker-compose.yaml, bind every published port to localhost (`127.0.0.1:8501:8501`), drop all capabilities (`cap_drop: [ALL]`), set `no-new-privileges:true`, and use an `internal: true` network for services that need no internet.
-- When using devcontainer.json, forward only the ports you need (`forwardPorts: [8501]`), set `remote.autoForwardPorts` to `false`, and run as a non-root user (`remoteUser`).
-- Always put secrets outside project repo!
-- Always put project data outside project repo!
-
-## Documentation
-
 - [Docker Images, Containers and Hardening](docker/)
     - [Introduction](docker/intro.md)
     - [Virtualization stack](docker/virtualization.md)
