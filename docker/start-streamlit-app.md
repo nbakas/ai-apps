@@ -23,6 +23,11 @@ the walkthrough container must already have been started with:
 docker run -it --name docker-walkthrough -p 127.0.0.1:8501:8501 python:3.12-slim bash
 ```
 
+to re-start the walkthrough container, use:
+```powershell
+docker start -ai docker-walkthrough
+```
+
 Copy the Streamlit application file into the running container:
 ```powershell
 docker cp app.py docker-walkthrough:/app/app.py
@@ -60,7 +65,7 @@ For **production and Hugging Face**, `CMD` starts Streamlit automatically when t
 * `app.py` → the Streamlit application file.
 * `--server.address=0.0.0.0` → makes Streamlit listen on all network addresses inside the container so Docker can forward connections to it.
 * `--server.port=8501` → makes Streamlit listen on container port `8501`.
-* `--server.fileWatcherType=none` -> disables source-file watching. This is appropriate for the production image, where the application files do not change.
+* `--server.fileWatcherType=none` → disables source-file watching. This is appropriate for the production image, where the application files do not change.
 * `--browser.gatherUsageStats=false` → disables Streamlit usage-statistics collection. 
 * `--server.headless=true` → prevents Streamlit from trying to open a browser and from asking for an email address at the first start. A container has no graphical display. (https://docs.streamlit.io/develop/api-reference/configuration/config.toml)
 
