@@ -1,4 +1,35 @@
-# Security extras
+# Security
+
+> **Disclaimer:** The following security recommendations are general guidelines and may need to be adapted to your specific environment and threat model.
+
+## Security main points
+
+Main security controls:
+
+- Run containers as a non-root user.
+- Restrict containers to internal Docker networks.
+- Expose Streamlit only through localhost.
+- No secrets in the project repo.
+- No sensitive data in the project repo.
+- Use reputable base images, models and Python packages.
+- No python on host, no VS Code extensions.
+
+Additionally:
+
+- Use `uv` with `--only-binary=:all:` to avoid source builds.
+- Use `--exclude-newer "7 days"` to avoid very recent package releases that might not be reported as vulnerable yet.
+- Scan container images with Trivy.
+- Audit Python dependencies with `pip-audit`.
+- `cap_drop: ALL` - drops all Linux capabilities from the container.
+- `no-new-privileges:true` - prevents privilege escalation within the container.
+- `--generate-hashes` + `--require-hashes` — pinned artifacts, so a re-uploaded or tampered wheel fails the install.
+- `pull_policy: never` — prevents Compose from pulling a replacement image.
+- `external: true` — you use the volume and the volume you filled. No silent substitution.
+- no git inside the container and no git credential bridge
+- VS Code extensions inside the container.
+- Update Docker Desktop, VS Code, and extensions regularly.
+- Re run the entire pipeline regularly for recent versions and vulnerability checks.
+- Use Nuitka for production, no cloud server.
 
 ## Secrets management
 
@@ -43,6 +74,17 @@ docker network create --internal dev-isolated
 ```
 
 Add `--network dev-isolated` to `docker run`.
+
+## Updates
+
+> Revisit the pipeline to regularly update:
+
+- Base images for CPU and GPU
+- llama.cpp server image
+- `requirements.in`
+- Dockerfiles
+- Containers
+- VS Code and installed extensions
 
 ## More
 

@@ -3,7 +3,7 @@
 ## Save image to a tar file
 
 ```powershell
-docker save -o C:\...\images\test1-image.tar test1-image:latest
+docker save -o C:\...\images\ai-apps-dev-image.tar ai-apps-dev-image:latest
 ```
 
 ## Download Trivy Image (alternative to installing Trivy on the host)
@@ -44,7 +44,7 @@ $dockerArgs = @(
 "--tmpfs"
 "/tmp:rw,noexec,nosuid,nodev,mode=1777"
 "--mount"
-"type=bind,source=C:\...\images\test1-image.tar,target=/scan/image.tar,readonly"
+"type=bind,source=C:\...\images\ai-apps-dev-image.tar,target=/scan/image.tar,readonly"
 "aquasec/trivy@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969"
 "image"
 "--timeout"

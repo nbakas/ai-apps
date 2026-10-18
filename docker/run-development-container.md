@@ -5,14 +5,14 @@ Interactively (after you build the image with the Dockerfile):
 
 ```powershell
 docker run -it `
-    --name test1-dev-container `
+    --name ai-apps-dev-container-tmp `
     --gpus all `
     --user appuser `
     --cap-drop=ALL `
     --security-opt=no-new-privileges `
     -p 127.0.0.1:8501:8501 `
     -v "${PWD}:/app" `
-    test1-image `
+    ai-apps-dev-image `
     bash
 ```
 
@@ -38,7 +38,7 @@ Then exit the container with `exit`. The container stops.
 After first run, restart the existing container:
 
 ```powershell
-docker start -ai test1-dev-container
+docker start -ai ai-apps-dev-container
 ```
 
 Then run the Streamlit command again inside. The full `docker run` command would fail because the container name already exists.
@@ -54,7 +54,7 @@ Then run the Streamlit command again inside. The full `docker run` command would
 > The virtual environment is at `/opt/venv`, not in `/app`. Therefore the mount does not hide the installed packages.
 
 * `-it` → keeps standard input (`i`) open and provides an interactive terminal (`t`).
-* `--name test1-dev-container` → gives the container a readable name.
+* `--name ai-apps-dev-container` → gives the container a readable name.
 * `-p 127.0.0.1:8501:8501` → maps port 8501 on the host to port 8501 in the container (port bind). 
 * `port bind` → makes a program or a published port use a specified network address. Here, Docker binds host port `8501` to `127.0.0.1`.
 * `-v` → creates a bind mount.
@@ -95,9 +95,14 @@ So Streamlit only listens inside the container. Docker forwards the host connect
 
 PowerShell:
 
+To stop the development container, type `Ctrl+C` in the terminal where it is running, or use the following command:
 ```powershell
-docker stop test1-dev-container
-docker start -ai test1-dev-container
+docker stop ai-apps-dev-container
+```
+
+To start the development container again, use the following command:
+```powershell
+docker start -ai ai-apps-dev-container
 ```
 
 > `docker start` starts the **same container** with the settings that were specified when `docker run` created it. This includes the port mapping, `--cap-drop=ALL`, `--security-opt=no-new-privileges`, GPU access, and environment variables.
@@ -106,6 +111,6 @@ docker start -ai test1-dev-container
 * `docker start` → starts the existing stopped container.
 * `-a` → attaches your terminal to the container output.
 * `-i` → keeps standard input open.
-* `test1-dev-container` → the existing container name.
+* `ai-apps-dev-container` → the existing container name.
 
 > If you remove the container, files stored only inside it are deleted. Files in bind mounts or Docker volumes remain.
