@@ -1,0 +1,40 @@
+FROM python:3.12-slim
+
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+        libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+ENV VENV=/opt/venv
+RUN python3 -m venv "$VENV"
+ENV PATH="$VENV/bin:$PATH"
+
+RUN pip install --no-cache-dir --only-binary=:all: uv pip-audit
+
+COPY requirements.txt .
+
+RUN pip-audit \
+    --require-hashes \
+    --disable-pip \
+    -r requirements.txt
+
+RUN uv pip sync requirements.txt \
+    --require-hashes \
+    --only-binary=:all:
+
+RUN uv pip check
+
+RUN useradd -m -u 1000 appuser \
+    && mkdir -p /home/appuser/.cache/huggingface \
+    && chown -R appuser:appuser /home/appuser
+
+ENV HOME=/home/appuser \
+    XDG_CACHE_HOME=/home/appuser/.cache \
+    HF_HOME=/home/appuser/.cache/huggingface
+
+USER appuser
+
+EXPOSE 8501
