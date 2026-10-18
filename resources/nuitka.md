@@ -2,7 +2,7 @@
 
 - https://nuitka.net/
 - https://nuitka.net/user-documentation/
--https://nuitka.net/user-documentation/tutorial-setup-and-build.html
+- https://nuitka.net/user-documentation/tutorial-setup-and-build.html
 - https://nuitka.net/user-documentation/user-manual.html
 
 > The free version of Nuitka will not include Commercial code-protection features such as data hiding, traceback encryption, or encrypted stderr.
