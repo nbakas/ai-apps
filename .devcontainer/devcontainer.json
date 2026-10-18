@@ -1,0 +1,23 @@
+{
+  "name": "ai-apps-vscode", // VS Code display name only
+  "dockerComposeFile": "docker-compose.yaml", // same folder as this file
+  "service": "app", // service VS Code attaches to
+  "workspaceFolder": "/app", // bind mount target VS Code opens
+  "remoteUser": "appuser", // VS Code logs in non-root
+  "forwardPorts": [8501], // Streamlit tunnel, localhost only
+  "shutdownAction": "stopCompose", // closing VS Code stops both containers
+  "customizations": { // tool specific settings
+    "vscode": { // applies to VS Code
+      "extensions": [ // installed into the container
+        "ms-python.python", // language support
+        "ms-python.vscode-pylance" // type checking and completion
+      ],
+      "settings": { // container side editor settings
+        "python.defaultInterpreterPath": "/opt/venv/bin/python", // skips manual interpreter step
+        "git.enabled": false, // Git runs on Windows only
+        "remote.autoForwardPorts": false, // forward only port 8501 above
+        "remote.restoreForwardedPorts": false // no stale forwards
+      }
+    }
+  }
+}

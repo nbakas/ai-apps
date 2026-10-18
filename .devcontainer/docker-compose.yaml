@@ -1,0 +1,47 @@
+name: ai-apps-dev-compose # fixed Compose project name
+services: # containers in this project
+  app: # VS Code development container
+    image: ai-apps-dev-image # built and scanned in step 8
+    container_name: ai-apps-dev-container # fixed Docker container name
+    pull_policy: never # never replace the scanned image
+    user: appuser # non-root user from Dockerfile
+    command: sleep infinity # idle, you run commands manually
+    working_dir: /app # terminal opens in the project
+    cap_drop: [ALL] # remove every Linux capability
+    security_opt: ["no-new-privileges:true"] # block privilege escalation
+    networks: [model-net] # no internet, reaches llama only
+    volumes: # storage for this service
+      - ..:/app # project root, one level up
+    environment: # variables inside the container
+      HOME: /home/appuser # user files stay outside project
+      XDG_CACHE_HOME: /home/appuser/.cache # caches stay outside project
+      LLAMA_BASE_URL: http://llama:8080/v1 # service name on model-net
+  llama: # local llama.cpp server, CPU
+    image: ghcr.io/ggml-org/llama.cpp:server # GPU: use :server-cuda instead
+    container_name: llama-cpp-container # fixed Docker container name
+    pull_policy: never # run only the scanned image
+    user: "1000:1000" # same uid as appuser, matches cache owner
+    read_only: true # filesystem writes blocked
+    tmpfs: ["/tmp"] # scratch space read_only requires
+    cap_drop: [ALL] # remove every Linux capability
+    security_opt: ["no-new-privileges:true"] # block privilege escalation
+    networks: [model-net] # no internet, no host port
+    volumes: # storage for this service
+      - hf-cache:/home/appuser/.cache/huggingface:ro # same path as download, read only
+    command: ["--model", 
+              # "/home/appuser/.cache/huggingface/hub/models--unsloth--gemma-4-E2B-it-GGUF/snapshots/0314792d7f1f7e229411f620751375812bb9faf2/gemma-4-E2B-it-Q4_K_M.gguf", 
+              "/home/appuser/.cache/huggingface/hub/models--unsloth--Qwen3.5-0.8B-GGUF/snapshots/6ab461498e2023f6e3c1baea90a8f0fe38ab64d0/Qwen3.5-0.8B-Q4_K_M.gguf",
+              "--mmproj", 
+              # "/home/appuser/.cache/huggingface/hub/models--unsloth--gemma-4-E2B-it-GGUF/snapshots/0314792d7f1f7e229411f620751375812bb9faf2/mmproj-F16.gguf", 
+              "/home/appuser/.cache/huggingface/hub/models--unsloth--Qwen3.5-0.8B-GGUF/snapshots/6ab461498e2023f6e3c1baea90a8f0fe38ab64d0/mmproj-F16.gguf",
+              "--reasoning", "off",
+              "--host", 
+              "0.0.0.0", 
+              "--port", 
+              "8080"]
+networks: # networks used above
+  model-net:
+    internal: true # no route out, Compose creates it
+volumes: # named volumes used above
+  hf-cache:
+    external: true # created in step 10, never auto-created
