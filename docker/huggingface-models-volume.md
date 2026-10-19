@@ -8,11 +8,17 @@ Token stays outside the project, read-only. Never write its value here.
 
 ```powershell
 docker run --rm -it `
-    --mount "type=bind,source=C:/secrets/hf_token.txt,target=/run/secrets/hf_token,readonly" `
-    --env HF_TOKEN_PATH=/run/secrets/hf_token `
-    -v "hf-cache:/home/appuser/.cache/huggingface" `
-    ai-apps-image `
-    hf download <repository> <model.gguf> <mmproj.gguf>
+  -v "hf-cache:/home/appuser/.cache/huggingface" `
+  python:3.12-slim `
+  bash
+```
+
+```powershell
+pip install huggingface-hub
+```
+
+```powershell
+hf download unsloth/Qwen3.5-0.8B-GGUF Qwen3.5-0.8B-Q4_K_M.gguf mmproj-F16.gguf
 ```
 
 e.g. 
