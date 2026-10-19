@@ -38,7 +38,7 @@
     - [.dockerignore](production/.dockerignore)
     - [requirements.in](production/requirements.in)
     - [requirements.txt](production/requirements.txt)
-    - [docker-compose.prod.yaml](production/docker-compose.prod.yaml)
+    - [docker-compose-prod.yaml](production/docker-compose-prod.yaml)
     - [nginx-default.conf](production/nginx-default.conf)
     - [launcher.py](production/launcher.py)
     - [app.cpython-312-x86_64-linux-gnu.so](production/app.cpython-312-x86_64-linux-gnu.so)
