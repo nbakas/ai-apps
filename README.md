@@ -25,6 +25,7 @@
     - [Security](docker/security.md)
     - [Miscellaneous](docker/miscellaneous.md)
     - [make_dockerfile.py](docker/make_dockerfile.py)
+    - [Workflow](docker/workflow.md)
 - [Development](development/)
     - [Dockerfile.dev](development/Dockerfile.dev)
     - [.dockerignore](development/.dockerignore)
