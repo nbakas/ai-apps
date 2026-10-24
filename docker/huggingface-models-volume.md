@@ -8,7 +8,7 @@ Token stays outside the project, read-only. Never write its value here.
 
 ```powershell
 docker run --rm -it `
-  -v "hf-cache:/home/appuser/.cache/huggingface" `
+  -v "hf-cache:/root/.cache/huggingface" `
   python:3.12-slim `
   bash
 ```

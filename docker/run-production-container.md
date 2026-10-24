@@ -50,9 +50,39 @@ For more advanced container health monitoring, consider adding a `HEALTHCHECK` i
 
 ## Run via Docker Compose
 
+```mermaid
+
+flowchart TD
+    B["Browser"]
+    N["1. Nginx (Proxy)<br/>Port: 8080"]
+    A["2. ai-apps (Streamlit)<br/>Port: 8501"]
+    L["3. llama (Model Server)<br/>Port: 8080"]
+    I(("Internet"))
+    B -->|"127.0.0.1:8501 → 8080<br/>Published port"| N
+    N -->|"frontend-net (internal)<br/>app:8501"| A
+    A -->|"model-net (internal)<br/>llama:8080"| L
+    N -.->|"proxy-net (bridge)<br/>Outbound allowed, not used by config"| I
+```
+
+> **Note:** Port numbers repeat (8501, 8080), but they are different ports. Each container has its own network namespace, so its ports are separate. Only `127.0.0.1:8501` is on the host.
+
 ### nginx-unprivileged-image
 
-First pull the `nginx-unprivileged` image:
+- A container with no internet (`internal: true`) cannot publish a port to the host.
+- So if the app must have no internet and still be reachable from the browser, you need a proxy (nginx) between them.
+
+| | app | nginx |
+|---|---|---|
+| Code | your code + dozens of Python packages | nginx only, known and scanned |
+| Supply chain risk | high, any package can be malicious | very low |
+| What it can do | anything the code does | only what the config says: forward to `app:8501` |
+| Internet | **no** | **yes** |
+
+If a Python package is malicious and tries to send your data out, it cannot, because the app has no route to the internet. nginx cannot help it either, because its config forwards nothing outward.
+
+In short: the risk is not zero, but it moves from a large, unknown component to a small, known one.
+
+> So, first pull the `nginx-unprivileged` image:
 
 ```powershell
 docker pull nginxinc/nginx-unprivileged:stable-alpine-slim
