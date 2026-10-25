@@ -43,6 +43,7 @@
     - [nginx-default.conf](production/nginx-default.conf)
     - [launcher.py](production/launcher.py)
     - [app.cpython-312-x86_64-linux-gnu.so](production/app.cpython-312-x86_64-linux-gnu.so)
+    - [Installation](production/install.md)
 - [Resources](resources/)
     - [Streamlit, Plotly, Kaleido](resources/streamlit.md)
     - [Hugging Face](resources/huggingface.md)
