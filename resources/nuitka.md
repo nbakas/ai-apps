@@ -16,6 +16,12 @@ Run a Docker container with same Python version as used in development.
 docker run --rm -it -v "${PWD}:/work" -w /work python:3.12-slim bash
 ```
 
+If your host is ARM-based, and the deployment target is x86_64, you need to specify the platform as `linux/amd64` when running the Docker container.
+
+```powershell
+docker run --rm -it --platform linux/amd64 -v "${PWD}:/work" -w /work python:3.12-slim bash
+```
+
 Install build tools required by Nuitka's C compiler backend.
 
 ```bash
